@@ -18,4 +18,5 @@ NOTE: This project in its original state does not support International number s
 
 If you find a bug please open an issues ticket here https://github.com/IntelligentVisibility/PhoneFormattingTextfield/issues.
 
-
+Screen Shot #1:
+ ![image](https://github.com/IntelligentVisibility/PhoneFormattingTextfield/blob/master/Screenshots/ss1.png)
