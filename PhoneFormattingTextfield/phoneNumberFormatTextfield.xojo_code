@@ -72,10 +72,152 @@ Inherits TextField
 	#tag Event
 		Sub TextChange()
 		  // USE NANP 10 DIGIT PHONE NUMBER FILTERING ON TEXTFIELD TEXT
-		  RaiseEvent FormatTextfieldText() 
+		  //RaiseEvent FormatTextfieldText() 
+		  Call formatThisMess()
 		  RaiseEvent TextChange()
 		End Sub
 	#tag EndEvent
+
+
+	#tag Method, Flags = &h0
+		Function formatThisMess() As Boolean
+		  
+		  // NOTE THIS LOGIC IS ONLY BUILT ON THE NANP 10 DIGIT DIALING: NPA+NXX+(4)DIGITS
+		  
+		  // SUPPORT FOR THREE 10 DIGIT NANP NUMBERS
+		  Me.dNumInt = Me.Text.Length
+		  Var finalStr As String
+		  
+		  If (Me.dNumInt = 1  Or Me.dNumInt = 15 Or Me.dNumInt = 29 ) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57  Then
+		    // LEFT TO RIGHT
+		    // USER IS TYPING AND WE ADD OPEN PARENTHESIS PROGRAMATICALLY
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var parenFirst As String = "("
+		    
+		    // MANIPULATE ARRAY
+		    If Me.dNumInt = 1 Then
+		      thisText.Insert(0, parenFirst)
+		    Else
+		      thisText.Insert(thisText.LastRowIndex, parenFirst)
+		    End If
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		  Elseif (Me.dNumInt = 4 Or Me.dNumInt = 18 Or Me.dNumInt = 32) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
+		    // LEFT TO RIGHT
+		    // USER IS TYPING DIGITS AND WE THEN ADD CLOSING PARENTHESIS PROGRAMATICALLY
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var parenLast As String = ")"
+		    
+		    // MANIPULATE ARRAY
+		    thisText.Append (parenLast)
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		  Elseif (Me.dNumInt = 8 Or Me.dNumInt = 22 Or Me.dNumInt = 36) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
+		    // LEFT TO RIGHT
+		    // USER IS TYPING DIGITS AND WE NEED TO ADD A HYPEN PROGRAMATICALLY
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var hyphen As String = "-"
+		    thisText.Append (hyphen)
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		  Elseif (Me.dNumInt = 5 OR Me.dNumInt = 19 Or Me.dNumInt = 33) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
+		    // RIGHT TO LEFT
+		    // USER DELTETED AND NOW IS TYPING DIGITS AGAIN AND WE THEN ADD CLOSING PARENTHESIS PROGRAMATICALLY
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var parenLast As String = ")"
+		    
+		    // MANIPULATE ARRAY
+		    thisText.Insert (thisText.LastRowIndex,parenLast)
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		    
+		  Elseif (Me.dNumInt = 5 OR Me.dNumInt = 19 Or Me.dNumInt = 33) AND Me.lastKeyPressedInt = 8  Then
+		    // RIGHT TO LEFT
+		    // USER IS PRESSING DELETE AND WE NEED TO DELETE THE HYPHEN PROGRAMATICALLY
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var p As String = thisText.Pop
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		  Elseif (Me.dNumInt = 9 OR Me.dNumInt = 23 Or Me.dNumInt = 37) AND Me.lastKeyPressedInt = 8 Then
+		    // RIGHT TO LEFT
+		    // REMOVE HYPHEN SINCE USER IS PRESSING DELETE
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var p As String = thisText.Pop
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		  Elseif (Me.dNumInt = 9  OR Me.dNumInt = 23  Or Me.dNumInt = 37) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
+		    // RIGHT TO LEFT
+		    // ADD HYPHEN SINCE USER IS PRESSING DIGITS AFTER DELETING HYPHEN
+		    Var thisText() As String = Split(Me.Text,"")
+		    Var hyphen As String = "-"
+		    thisText.Insert (thisText.LastRowIndex, hyphen)
+		    
+		    // PLAY OUT TO TEXTFIELD
+		    For i As Integer = 0 To thisText.LastRowIndex
+		      finalStr = finalStr + thisText(i)
+		    Next i
+		    Me.Text = finalStr
+		    
+		    
+		  Elseif (Me.dNumInt = 13 Or Me.dNumInt = 27 Or Me.dNumInt = 41) AND Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
+		    // MAX OUT THE 10 DIGIT NUMBER (DONT ALLOW ANY NUMBERS ANY LONGER THAN 10 DIGITS)
+		    Var thisText() As String = Split(Me.Text,"")
+		    
+		    If Me.dNumInt = 13 Then
+		      For i As Integer = 0 To 12
+		        finalStr = finalStr + thisText(i)
+		      Next i
+		      Me.Text = finalStr
+		      
+		    Elseif Me.dNumInt = 27 Then
+		      For i As Integer = 0 To 26
+		        finalStr = finalStr + thisText(i)
+		      Next i
+		      Me.Text = finalStr
+		      
+		      
+		    End If
+		    
+		  Elseif (Me.dNumInt = 14 OR Me.dNumInt = 28) AND Me.lastKeyPressedInt = 44 Then
+		    // ALLOW ONE COMMA ONLY AFTER ONE OR TWO PHONE NUMBERS
+		    
+		    
+		  End If
+		  
+		  
+		  
+		End Function
+	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
