@@ -16,3 +16,6 @@ This is a custom class that is subclassed from TextField class in order to provi
 
 NOTE: This project in its original state does not support International number support - Only 10 Digit NANP numbers at this point. Feel free to fork this project, extend the code base, and then make a pull request if you would like to contribute.
 
+If you find a bug please open an issues ticket here https://github.com/IntelligentVisibility/PhoneFormattingTextfield/issues.
+
+
