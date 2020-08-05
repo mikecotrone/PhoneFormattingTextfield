@@ -10,7 +10,7 @@ Begin Window Demo_Window
    HasFullScreenButton=   False
    HasMaximizeButton=   True
    HasMinimizeButton=   True
-   Height          =   406
+   Height          =   264
    ImplicitInstance=   True
    MacProcID       =   0
    MaximumHeight   =   32000
@@ -27,10 +27,9 @@ Begin Window Demo_Window
    Begin PhoneFormattingTextfield.phoneNumberFormatTextfield phoneNumberFormatTextfield1
       AllowAutoDeactivate=   True
       AllowFocusRing  =   False
-      AllowMultipleNumbers=   False
       AllowSpellChecking=   False
       AllowTabs       =   False
-      BackgroundColor =   &cFFFFFF00
+      BackgroundColor =   &cE1FCE400
       Bold            =   False
       DataField       =   ""
       DataSource      =   ""
@@ -63,13 +62,13 @@ Begin Window Demo_Window
       TextAlignment   =   "0"
       TextColor       =   &c00000000
       Tooltip         =   ""
-      Top             =   260
+      Top             =   204
       Transparent     =   True
       Underline       =   False
       ValidationMask  =   ""
       Value           =   ""
       Visible         =   True
-      Width           =   160
+      Width           =   254
    End
    Begin Label DemoPurpose_Label
       AllowAutoDeactivate=   True
@@ -80,7 +79,7 @@ Begin Window Demo_Window
       FontName        =   "System"
       FontSize        =   0.0
       FontUnit        =   0
-      Height          =   191
+      Height          =   113
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -102,44 +101,44 @@ Begin Window Demo_Window
       Top             =   10
       Transparent     =   True
       Underline       =   False
-      Value           =   "Class Purpose: This class was designed to perform proper formatting of 10 digit NANP (NPA + NXX + 4 Digits) using the following format of (XXX)XXX-XXXX\n\nIf you are interested in extending this class with new features please fork this project, make you local changes, and then create a pull request from my project. I will review your changes and then merge them into my project.\n\nDefault behaviour (Click on textfield, go to inspector, look down to behavior and set ""Allow Multiple Numbers"". If you click true the multiple number format expected is (XXX)XXX-XXXX,(XXX)XXX-XXXX,(XXX)XXX-XXXX.\n\nIts currenly designed for UP to 3 phone numbers (10 Digit) by design."
+      Value           =   "Class Purpose: This class was designed to perform proper formatting of 10 digit NANP (NPA + NXX + 4 Digits) using the following format of (XXX)XXX-XXXX\n\nIf you are interested in extending this class with new features please fork this project, make you local changes, and then create a pull request from my project. I will review your changes and then merge them into my project."
       Visible         =   True
       Width           =   644
-   End
-   Begin Label DemoExample1_Label
-      AllowAutoDeactivate=   True
-      Bold            =   False
-      DataField       =   ""
-      DataSource      =   ""
-      Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   20
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   False
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   True
-      Multiline       =   False
-      Scope           =   2
-      Selectable      =   False
-      TabIndex        =   3
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextAlignment   =   "0"
-      TextColor       =   &c00000000
-      Tooltip         =   ""
-      Top             =   228
-      Transparent     =   True
-      Underline       =   False
-      Value           =   "Example 1: Formatting for 1 phone number"
-      Visible         =   True
-      Width           =   451
+      Begin Label DemoExample1_Label
+         AllowAutoDeactivate=   True
+         Bold            =   False
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
+         Height          =   20
+         Index           =   -2147483648
+         InitialParent   =   "DemoPurpose_Label"
+         Italic          =   False
+         Left            =   20
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   True
+         Multiline       =   False
+         Scope           =   2
+         Selectable      =   False
+         TabIndex        =   0
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextAlignment   =   "0"
+         TextColor       =   &c00000000
+         Tooltip         =   ""
+         Top             =   172
+         Transparent     =   True
+         Underline       =   False
+         Value           =   "Example 1: Formatting for 1 phone number"
+         Visible         =   True
+         Width           =   451
+      End
    End
    Begin Line Line1
       Index           =   -2147483648
@@ -153,90 +152,8 @@ Begin Window Demo_Window
       Visible         =   True
       X1              =   0.0
       X2              =   686.0
-      Y1              =   201.0
-      Y2              =   201.0
-   End
-   Begin PhoneFormattingTextfield.phoneNumberFormatTextfield phoneNumberFormatTextfield2
-      AllowAutoDeactivate=   True
-      AllowFocusRing  =   False
-      AllowMultipleNumbers=   True
-      AllowSpellChecking=   False
-      AllowTabs       =   False
-      BackgroundColor =   &cFFFFFF00
-      Bold            =   False
-      DataField       =   ""
-      DataSource      =   ""
-      dNumInt         =   0
-      Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Format          =   ""
-      HasBorder       =   True
-      Height          =   26
-      Hint            =   ""
-      Index           =   -2147483648
-      Italic          =   False
-      keyPressedBeforeLastKeyInt=   0
-      lastKeyPressedInt=   0
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   True
-      MaximumCharactersAllowed=   0
-      Password        =   False
-      ReadOnly        =   False
-      Scope           =   1
-      TabIndex        =   4
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextAlignment   =   "0"
-      TextColor       =   &c00000000
-      Tooltip         =   ""
-      Top             =   341
-      Transparent     =   True
-      Underline       =   False
-      ValidationMask  =   ""
-      Value           =   ""
-      Visible         =   True
-      Width           =   323
-   End
-   Begin Label DemoExample1_Label1
-      AllowAutoDeactivate=   True
-      Bold            =   False
-      DataField       =   ""
-      DataSource      =   ""
-      Enabled         =   True
-      FontName        =   "System"
-      FontSize        =   0.0
-      FontUnit        =   0
-      Height          =   20
-      Index           =   -2147483648
-      InitialParent   =   ""
-      Italic          =   False
-      Left            =   20
-      LockBottom      =   False
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
-      LockTop         =   True
-      Multiline       =   False
-      Scope           =   2
-      Selectable      =   False
-      TabIndex        =   5
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextAlignment   =   "0"
-      TextColor       =   &c00000000
-      Tooltip         =   ""
-      Top             =   309
-      Transparent     =   True
-      Underline       =   False
-      Value           =   "Example 2: Formatting for up to 3 numbers"
-      Visible         =   True
-      Width           =   451
+      Y1              =   145.0
+      Y2              =   145.0
    End
 End
 #tag EndWindow
@@ -245,18 +162,6 @@ End
 #tag EndWindowCode
 
 #tag Events phoneNumberFormatTextfield1
-	#tag Event
-		Sub TextChange()
-		  
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub KeyDown()
-		  
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events phoneNumberFormatTextfield2
 	#tag Event
 		Sub TextChange()
 		  

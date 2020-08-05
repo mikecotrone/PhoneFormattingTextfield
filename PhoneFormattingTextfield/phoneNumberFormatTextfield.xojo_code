@@ -6,47 +6,18 @@ Inherits TextField
 		  // CAPTURE THE KEY PRESSED
 		  Me.lastKeyPressedInt = Asc(Key)
 		  
-		  
-		  If Me.AllowMultipleNumbers = True Then
-		    
-		    // BLOCK TWO COMMAS IN A ROW
-		    If Me.lastKeyPressedInt = Me.keyPressedBeforeLastKeyInt AND Me.lastKeyPressedInt = 44 Then
-		      Return True
-		    End If
-		    
-		    // BLOCK ALL KEYS AFTER 3 NUMBER SETS BY DESIGN
-		    If dNumInt >= 41 AND Me.lastKeyPressedInt = 44 Then
-		      Return True
-		    End If
-		  End If
-		  
-		  // BLOCK RUN ON NUMBERS
-		  If Me.lastKeyPressedInt >= 48 AND Me.lastKeyPressedInt <=57 AND (dNumInt = 13 OR dNumInt = 27 OR dNumInt = 41) Then
+		  // BLOCK ONLY ALLOW MAX 13
+		  If Me.lastKeyPressedInt >= 48 AND Me.lastKeyPressedInt <=57 AND dNumInt = 13 Then
 		    Return True
 		  End If
 		  
-		  // BLOCK USER FROM ADDING A COMMA IN THE MIDDLE OF A 10 DIGIT NUMBER
-		  If Me.lastKeyPressedInt = 44 AND (dNumInt = 13 OR dNumInt = 27) Then
-		    // ALLOW
-		    
-		  Elseif Me.lastKeyPressedInt = 44 AND (dNumInt <> 14 OR dNumInt = 28) Then
-		    Return True
-		  End If
-		  
-		  // ONLY ALLOW DIGITS AND COMMAS
+		  // ONLY ALLOW DIGITS
 		  Select Case Me.lastKeyPressedInt
-		    
 		  Case 8
 		    // ALLOW BACKSPACE
 		    
 		  Case 48 to 57
 		    // ALLOW NUMBERS
-		    
-		  Case 44
-		    // COMMA
-		    If me.AllowMultipleNumbers = False Then
-		      Return True
-		    End if
 		    
 		  Else
 		    // BLOCK THE REST
@@ -70,149 +41,66 @@ Inherits TextField
 	#tag EndEvent
 
 	#tag Event
+		Sub Open()
+		  // SET MAX DIGITS
+		  Me.MaximumCharactersAllowed = 13
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Sub TextChange()
 		  // USE NANP 10 DIGIT PHONE NUMBER FILTERING ON TEXTFIELD TEXT
-		  //RaiseEvent FormatTextfieldText() 
-		  Call formatThisMess()
+		  Call formatPastedNum()
 		  RaiseEvent TextChange()
+		  
 		End Sub
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h21
+		Private Function cleanDigits(inText as String) As String()
+		  // CLEAN DIGIT STRING FROM ( ) AND -
+		  
+		  Var messStrArr() as String = inText.Split("")
+		  For i as Integer = messStrArr.LastRowIndex DownTo 0
+		    if messStrArr(i) = ")" OR messStrArr(i) = "(" OR messStrArr(i) = "-" Then
+		      messStrArr.Remove (i)
+		    end if
+		  Next i
+		  
+		  Return messStrArr()
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
-		Function formatThisMess() As Boolean
+		Function formatPastedNum() As Boolean
 		  
-		  // NOTE THIS LOGIC IS ONLY BUILT ON THE NANP 10 DIGIT DIALING: NPA+NXX+(4)DIGITS
+		  // HOUSE KEEPING
+		  Var parenFirstStr As String = "("
+		  Var parenLastStr As String = ")"
+		  Var hyphenStr As String = "-"
+		  Var finalStr as String
 		  
-		  // SUPPORT FOR THREE 10 DIGIT NANP NUMBERS
-		  Me.dNumInt = Me.Text.Length
-		  Var finalStr As String
-		  
-		  If (Me.dNumInt = 1  Or Me.dNumInt = 15 Or Me.dNumInt = 29 ) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57  Then
-		    // LEFT TO RIGHT
-		    // USER IS TYPING AND WE ADD OPEN PARENTHESIS PROGRAMATICALLY
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var parenFirst As String = "("
-		    
-		    // MANIPULATE ARRAY
-		    If Me.dNumInt = 1 Then
-		      thisText.Insert(0, parenFirst)
-		    Else
-		      thisText.Insert(thisText.LastRowIndex, parenFirst)
+		  // GRAB CLEAN DIGITS
+		  Var textBufferStrArr() as String = cleanDigits(Me.Text)
+		  For i as Integer = 0 to textBufferStrArr.LastRowIndex
+		    If i = 0 Then
+		      textBufferStrArr.Insert(i, parenFirstStr)
+		    Elseif i = 4 Then
+		      textBufferStrArr.Insert(i, parenLastStr)
+		    Elseif i = 8 Then
+		      textBufferStrArr.Insert(i, hyphenStr)
+		      Exit
 		    End If
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		  Elseif (Me.dNumInt = 4 Or Me.dNumInt = 18 Or Me.dNumInt = 32) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
-		    // LEFT TO RIGHT
-		    // USER IS TYPING DIGITS AND WE THEN ADD CLOSING PARENTHESIS PROGRAMATICALLY
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var parenLast As String = ")"
-		    
-		    // MANIPULATE ARRAY
-		    thisText.Append (parenLast)
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		  Elseif (Me.dNumInt = 8 Or Me.dNumInt = 22 Or Me.dNumInt = 36) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
-		    // LEFT TO RIGHT
-		    // USER IS TYPING DIGITS AND WE NEED TO ADD A HYPEN PROGRAMATICALLY
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var hyphen As String = "-"
-		    thisText.Append (hyphen)
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		  Elseif (Me.dNumInt = 5 OR Me.dNumInt = 19 Or Me.dNumInt = 33) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
-		    // RIGHT TO LEFT
-		    // USER DELTETED AND NOW IS TYPING DIGITS AGAIN AND WE THEN ADD CLOSING PARENTHESIS PROGRAMATICALLY
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var parenLast As String = ")"
-		    
-		    // MANIPULATE ARRAY
-		    thisText.Insert (thisText.LastRowIndex,parenLast)
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		    
-		  Elseif (Me.dNumInt = 5 OR Me.dNumInt = 19 Or Me.dNumInt = 33) AND Me.lastKeyPressedInt = 8  Then
-		    // RIGHT TO LEFT
-		    // USER IS PRESSING DELETE AND WE NEED TO DELETE THE HYPHEN PROGRAMATICALLY
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var p As String = thisText.Pop
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		  Elseif (Me.dNumInt = 9 OR Me.dNumInt = 23 Or Me.dNumInt = 37) AND Me.lastKeyPressedInt = 8 Then
-		    // RIGHT TO LEFT
-		    // REMOVE HYPHEN SINCE USER IS PRESSING DELETE
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var p As String = thisText.Pop
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		  Elseif (Me.dNumInt = 9  OR Me.dNumInt = 23  Or Me.dNumInt = 37) And Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
-		    // RIGHT TO LEFT
-		    // ADD HYPHEN SINCE USER IS PRESSING DIGITS AFTER DELETING HYPHEN
-		    Var thisText() As String = Split(Me.Text,"")
-		    Var hyphen As String = "-"
-		    thisText.Insert (thisText.LastRowIndex, hyphen)
-		    
-		    // PLAY OUT TO TEXTFIELD
-		    For i As Integer = 0 To thisText.LastRowIndex
-		      finalStr = finalStr + thisText(i)
-		    Next i
-		    Me.Text = finalStr
-		    
-		    
-		  Elseif (Me.dNumInt = 13 Or Me.dNumInt = 27 Or Me.dNumInt = 41) AND Me.lastKeyPressedInt >= 48 And Me.lastKeyPressedInt <= 57 Then
-		    // MAX OUT THE 10 DIGIT NUMBER (DONT ALLOW ANY NUMBERS ANY LONGER THAN 10 DIGITS)
-		    Var thisText() As String = Split(Me.Text,"")
-		    
-		    If Me.dNumInt = 13 Then
-		      For i As Integer = 0 To 12
-		        finalStr = finalStr + thisText(i)
-		      Next i
-		      Me.Text = finalStr
-		      
-		    Elseif Me.dNumInt = 27 Then
-		      For i As Integer = 0 To 26
-		        finalStr = finalStr + thisText(i)
-		      Next i
-		      Me.Text = finalStr
-		      
-		      
-		    End If
-		    
-		  Elseif (Me.dNumInt = 14 OR Me.dNumInt = 28) AND Me.lastKeyPressedInt = 44 Then
-		    // ALLOW ONE COMMA ONLY AFTER ONE OR TWO PHONE NUMBERS
-		    
-		    
-		  End If
+		  Next i
+		  
+		  
+		  // BUILD STRING
+		  For x As Integer = 0 To textBufferStrArr.LastRowIndex
+		    finalStr = finalStr + textBufferStrArr(x)
+		  Next x
+		  
+		  Me.Text = finalStr
 		  
 		  
 		  
@@ -237,20 +125,6 @@ Inherits TextField
 	#tag EndHook
 
 
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Return mallowMultipleNumbers
-			End Get
-		#tag EndGetter
-		#tag Setter
-			Set
-			  mallowMultipleNumbers = value
-			End Set
-		#tag EndSetter
-		AllowMultipleNumbers As Boolean
-	#tag EndComputedProperty
-
 	#tag Property, Flags = &h0
 		dNumInt As Integer
 	#tag EndProperty
@@ -261,10 +135,6 @@ Inherits TextField
 
 	#tag Property, Flags = &h0
 		lastKeyPressedInt As Integer
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mallowMultipleNumbers As Boolean
 	#tag EndProperty
 
 
@@ -608,14 +478,6 @@ Inherits TextField
 			Group="Behavior"
 			InitialValue=""
 			Type="Integer"
-			EditorType=""
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="AllowMultipleNumbers"
-			Visible=true
-			Group="Behavior"
-			InitialValue=""
-			Type="Boolean"
 			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
