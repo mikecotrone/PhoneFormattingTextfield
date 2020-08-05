@@ -1,12 +1,12 @@
 Phone Formatting Textfield
 
-Date: April 2020
+Date: August 2020
 
 Language: Xojo 2019 R3.1
 
 Author: Mike Cotrone (mikec@intelligentvis.com)
 
-Version: 1.0.1
+Version: 1.0.2
 
 Contributors: Mike Cotrone
 
