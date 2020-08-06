@@ -163,6 +163,21 @@ End
 
 #tag Events phoneNumberFormatTextfield1
 	#tag Event
+<<<<<<< HEAD
+=======
+		Sub TextChange()
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub KeyDown()
+		  
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events phoneNumberFormatTextfield2
+	#tag Event
+>>>>>>> master
 		Sub TextChange()
 		  
 		End Sub
