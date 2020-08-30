@@ -6,7 +6,7 @@ Language: Xojo 2019 R3.1
 
 Author: Mike Cotrone (mikec@2tab.io)
 
-Version: 1.0.2
+Version: 1.0.2 - OS X and Windows Desktop Projects
 
 Contributors: Mike Cotrone
 
