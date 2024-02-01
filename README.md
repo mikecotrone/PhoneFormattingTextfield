@@ -4,7 +4,7 @@ Date: August 2020
 
 Language: Xojo 2019 R3.1
 
-Author: Mike Cotrone (mikec@2tab.io)
+Author: Mike Cotrone (mikec@vistatechgso.com)
 
 Version: 1.0.2 - OS X and Windows Desktop Projects
 
