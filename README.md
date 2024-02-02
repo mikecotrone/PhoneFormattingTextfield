@@ -18,7 +18,7 @@ Users ONLY type in their digits and see a nice formatted output of (XXX)XXX-XXXX
 
 NOTE: This project does not support International dial plan numbers - Only 10 Digit NANP numbers at this point. Feel free to fork this project, extend the code base, and then make a pull request if you would like to contribute.
 
-If you find a bug please open an issues ticket here https://github.com/IntelligentVisibility/PhoneFormattingTextfield/issues.
+If you find a bug please open an issues ticket here https://github.com/mikecotrone/PhoneFormattingTextfield/issues.
 
 
  
