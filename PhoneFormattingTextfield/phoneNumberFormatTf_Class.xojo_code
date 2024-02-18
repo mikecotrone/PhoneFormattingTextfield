@@ -1,5 +1,5 @@
 #tag Class
-Protected Class phoneNumberFormatTextfield
+Protected Class phoneNumberFormatTf_Class
 Inherits TextField
 	#tag Event
 		Function KeyDown(Key As String) As Boolean
@@ -28,7 +28,6 @@ Inherits TextField
 		  // CALL KEYDOWN EVENT
 		  RaiseEvent KeyDown()
 		  
-		  
 		  // CALL KEYUP
 		  RaiseEvent KeyUp()
 		End Function
@@ -42,7 +41,7 @@ Inherits TextField
 
 	#tag Event
 		Sub Open()
-		  // SET MAX DIGITS
+		  // SET MAX DIGITS AND OVERRIDE IDE VALUE IF SET
 		  Me.MaximumCharactersAllowed = 13
 		End Sub
 	#tag EndEvent
@@ -50,19 +49,14 @@ Inherits TextField
 	#tag Event
 		Sub TextChange()
 		  // USE NANP 10 DIGIT PHONE NUMBER FILTERING ON TEXTFIELD TEXT
-<<<<<<< HEAD
 		  Call formatPastedNum()
-=======
-		  //RaiseEvent FormatTextfieldText() 
 		  Call formatThisMess()
->>>>>>> master
 		  RaiseEvent TextChange()
 		  
 		End Sub
 	#tag EndEvent
 
 
-<<<<<<< HEAD
 	#tag Method, Flags = &h21
 		Private Function cleanDigits(inText as String) As String()
 		  // CLEAN DIGIT STRING FROM ( ) AND -
@@ -80,7 +74,6 @@ Inherits TextField
 
 	#tag Method, Flags = &h0
 		Function formatPastedNum() As Boolean
-		  
 		  // HOUSE KEEPING
 		  Var parenFirstStr As String = "("
 		  Var parenLastStr As String = ")"
@@ -100,17 +93,20 @@ Inherits TextField
 		    End If
 		  Next i
 		  
-		  
 		  // BUILD STRING
 		  For x As Integer = 0 To textBufferStrArr.LastRowIndex
 		    finalStr = finalStr + textBufferStrArr(x)
 		  Next x
 		  
 		  Me.Text = finalStr
-=======
-	#tag Method, Flags = &h0
-		Function formatThisMess() As Boolean
 		  
+		  
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function formatThisMess() As Boolean
 		  // NOTE THIS LOGIC IS ONLY BUILT ON THE NANP 10 DIGIT DIALING: NPA+NXX+(4)DIGITS
 		  
 		  // SUPPORT FOR THREE 10 DIGIT NANP NUMBERS
@@ -240,19 +236,10 @@ Inherits TextField
 		  Elseif (Me.dNumInt = 14 OR Me.dNumInt = 28) AND Me.lastKeyPressedInt = 44 Then
 		    // ALLOW ONE COMMA ONLY AFTER ONE OR TWO PHONE NUMBERS
 		    
-		    
 		  End If
->>>>>>> master
-		  
-		  
-		  
 		End Function
 	#tag EndMethod
 
-
-	#tag Hook, Flags = &h0
-		Event FormatTextfieldText()
-	#tag EndHook
 
 	#tag Hook, Flags = &h0
 		Event KeyDown()
@@ -281,6 +268,14 @@ Inherits TextField
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Text"
+			Visible=true
+			Group="Initial State"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
@@ -624,14 +619,6 @@ Inherits TextField
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Hint"
-			Visible=true
-			Group="Initial State"
-			InitialValue=""
-			Type="String"
-			EditorType="MultiLineEditor"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Value"
 			Visible=true
 			Group="Initial State"
 			InitialValue=""
